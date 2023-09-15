@@ -2,6 +2,7 @@ export interface IBoardItem {
   id: number;
   name: string;
   visibled: boolean;
+  revealed?: boolean;
 }
 
 export interface IUser {

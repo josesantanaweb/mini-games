@@ -79,7 +79,9 @@ const RootPage = () => {
   const handleSelected = (selectedItem: IBoardItem) => {
     setBoard(
       board.map((item: IBoardItem) =>
-        selectedItem.id === item.id ? { ...item, visibled: true } : item
+        selectedItem.id === item.id
+          ? { ...item, visibled: true, revealed: true }
+          : item
       )
     );
 
@@ -131,8 +133,6 @@ const RootPage = () => {
     setBonesCount(bonesCount - 1);
     setChickenCount(chickenCount + 1);
   };
-
-  console.log('board', board)
 
   return (
     <>

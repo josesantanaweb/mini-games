@@ -23,6 +23,7 @@ export const createArrayBoard = (array: string[]) => {
     id: i,
     name,
     visibled: false,
+    revealed: false,
   }));
   return newArray;
 };
