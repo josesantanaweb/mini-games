@@ -11,3 +11,12 @@ export interface IUser {
   email: string;
   balance: number;
 }
+
+export interface IHistory {
+  id: number;
+  date: string;
+  coefficient: number;
+  betAmount: number;
+  totalWinAmount: number;
+  status: string
+}

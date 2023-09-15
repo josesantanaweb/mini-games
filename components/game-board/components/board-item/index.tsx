@@ -24,7 +24,7 @@ const BoardItem = (props: IBoardItemProps) => {
     endGame && item.revealed
       ? "opacity-100"
       : !endGame
-      ? "opacity-90"
+      ? "opacity-100"
       : "opacity-50";
 
   return (

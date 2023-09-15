@@ -1,7 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
+import moment from "moment";
 import { shuffleWordArray, createArrayBoard } from "@/utils";
-import { IBoardItem } from "@/interfaces";
+import { IBoardItem, IHistory } from "@/interfaces";
 import { DEFAULT_CHICKEND, DEFAULT_BONES } from "@/constants";
 
 import GameHeader from "@/components/game-header";
@@ -11,9 +12,11 @@ import GameButtons from "@/components/game-buttons";
 import GameBetBox from "@/components/game-betbox";
 import GameBoneBox from "@/components/game-bonebox";
 import GameAmounts from "@/components/game-amounts";
+import GameHistory from "@/components/game-history";
 
 const RootPage = () => {
   const [board, setBoard] = useState<IBoardItem[]>([]);
+  const [histories, setHistories] = useState<IHistory[]>([]);
   const [bonesCount, setBonesCount] = useState<number>(DEFAULT_BONES);
   const [chickenCount, setChickenCount] = useState<number>(DEFAULT_CHICKEND);
   const [betAmount, setBetAmount] = useState<number>(0);
@@ -43,6 +46,19 @@ const RootPage = () => {
   // Muestra los items del board
   const resetBoard = () => setBoard(boardElements);
 
+  // Agrega nuevo registro al historial
+  const addNewHistory = (status: string) => {
+    const history = {
+      id: 1,
+      date: `${moment().format('DD/MM/YYYY, h:mm:ss a')}`,
+      coefficient: status === "win" ? odd : 0,
+      betAmount: betAmount,
+      totalWinAmount: status === "win" ? totalWinAmount : 0,
+      status: status,
+    };
+    setHistories([...histories, history]);
+  };
+
   // Inicializador del juego
   const initGame = () => {
     setStartGame(true);
@@ -61,6 +77,7 @@ const RootPage = () => {
     setOdd(bonesCount / chickenCount + 1);
     setTotalWinAmount(0)
     setChickenVisibled(1)
+    addNewHistory("lose");
   };
 
   // Retirar dinero
@@ -73,6 +90,7 @@ const RootPage = () => {
     setOdd(bonesCount / chickenCount + 1);
     setTotalWinAmount(0)
     setChickenVisibled(1)
+    addNewHistory("win");
   };
 
   // Selecciona cada item del board
@@ -111,6 +129,8 @@ const RootPage = () => {
       cashOut()
     }
   };
+
+  console.log('totalWinAmount', totalWinAmount)
 
   // Incrementa el valor de la apuesta
   const handleAmountIncrease = () => {
@@ -169,6 +189,7 @@ const RootPage = () => {
         nextOdd={nextOdd}
         totalWinAmount={totalWinAmount}
       />
+      <GameHistory histories={histories}/>
     </>
   );
 };

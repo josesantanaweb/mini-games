@@ -14,7 +14,7 @@ const GameBoard = (props: IGameBoardProps) => {
   const { board, handleSelected, startGame, endGame } = props;
 
   return (
-    <section className="grid grid-cols-5 gap-5 p-4">
+    <section className="grid grid-cols-5 gap-5 p-4 bg-center bg-shadow bg-[length:120%]">
       {board.map((item: IBoardItem, index: number) => (
         <BoardItem
           item={item}
