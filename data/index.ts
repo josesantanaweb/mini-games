@@ -4,5 +4,3 @@ export const userDefault = {
   email: "josesantana.web@gmail.com",
   balance: 100,
 };
-
-export const oddsDefault = [1.09, 1.2, 1.4, 1.6, 1.8, 2];

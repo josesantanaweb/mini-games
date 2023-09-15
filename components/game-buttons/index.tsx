@@ -5,12 +5,12 @@ import BetButton from "./components/bet-button";
 export interface IGameButtonsProps {
   startGame: boolean;
   betAmount: number;
-  totalAmount: number;
+  totalWinAmount: number;
   handleBetButton: () => void;
 }
 
 const BetButtons = (props: IGameButtonsProps) => {
-  const { startGame, betAmount, totalAmount, handleBetButton } = props;
+  const { startGame, betAmount, totalWinAmount, handleBetButton } = props;
 
   return (
     <section className="p-2">
@@ -18,14 +18,14 @@ const BetButtons = (props: IGameButtonsProps) => {
         <BetButton
           onClick={handleBetButton}
           label="Retirar"
-          secondaryLabel={`${totalAmount.toFixed(2)} USD`}
+          secondaryLabel={`${totalWinAmount.toFixed(2)} USD`}
           variant="secondary"
         />
       ) : (
         <BetButton
           onClick={handleBetButton}
           label="Apostar"
-          // disabled={betAmount <= 0}
+          disabled={betAmount <= 0}
         />
       )}
     </section>

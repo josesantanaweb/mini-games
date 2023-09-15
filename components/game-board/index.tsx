@@ -3,14 +3,15 @@
 import BoardItem from "./components/board-item";
 import { IBoardItem } from "@/interfaces";
 
-export interface IBoardProps {
+export interface IGameBoardProps {
   handleSelected: (selectedItem: IBoardItem) => void;
   board: IBoardItem[];
   startGame: boolean;
+  endGame: boolean;
 }
 
-const Board = (props: IBoardProps) => {
-  const { board, handleSelected, startGame } = props;
+const GameBoard = (props: IGameBoardProps) => {
+  const { board, handleSelected, startGame, endGame } = props;
 
   return (
     <section className="grid grid-cols-5 gap-5 p-4">
@@ -20,10 +21,11 @@ const Board = (props: IBoardProps) => {
           key={index}
           handleSelected={handleSelected}
           startGame={startGame}
+          endGame={endGame}
         />
       ))}
     </section>
   );
 };
 
-export default Board;
+export default GameBoard;

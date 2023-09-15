@@ -2,17 +2,29 @@
 import { useState, useEffect } from "react";
 import { shuffleWordArray, createArrayBoard } from "@/utils";
 import { IBoardItem } from "@/interfaces";
-import Board from "@/components/board";
+import { DEFAULT_CHICKEND, DEFAULT_BONES } from "@/constants";
+
+import GameHeader from "@/components/game-header";
+import GameBoard from "@/components/game-board";
 import GameState from "@/components/game-state";
 import GameButtons from "@/components/game-buttons";
+import GameBetBox from "@/components/game-betbox";
+import GameBoneBox from "@/components/game-bonebox";
+import GameAmounts from "@/components/game-amounts";
 
 const RootPage = () => {
   const [board, setBoard] = useState<IBoardItem[]>([]);
-  const [bonesCount, setBonesCount] = useState<number>(10);
-  const [chickenCount, setChickenCount] = useState<number>(15);
+  const [bonesCount, setBonesCount] = useState<number>(DEFAULT_BONES);
+  const [chickenCount, setChickenCount] = useState<number>(DEFAULT_CHICKEND);
   const [betAmount, setBetAmount] = useState<number>(0);
-  const [totalAmount, setTotalAmount] = useState<number>(0);
+  const [totalWinAmount, setTotalWinAmount] = useState<number>(0);
+  const [nextWinAmount, setNextWinAmount] = useState<number>(0);
+  const [balance, setBalance] = useState<number>(100);
+  const [odd, setOdd] = useState<number>(0);
+  const [nextOdd, setNextOdd] = useState<number>(0);
   const [startGame, setStartGame] = useState<boolean>(false);
+  const [endGame, setEndGame] = useState<boolean>(false);
+  const [chickenVisibled, setChickenVisibled] = useState<number>(1);
 
   // Crea un array con cantidad de chickends Y bones
   const shuffleWord = shuffleWordArray(chickenCount, bonesCount);
@@ -21,18 +33,49 @@ const RootPage = () => {
 
   useEffect(() => {
     setBoard(boardElements);
+    setOdd((bonesCount/chickenCount) + 1)
   }, []);
 
   // Muestra los items del board
-  const showBoard = () => {
+  const showBoard = () =>
     setBoard(board.map((item: IBoardItem) => ({ ...item, visibled: true })));
-  }
 
   // Muestra los items del board
-  const resetBoard = () => {
-    setBoard(boardElements);
-  }
+  const resetBoard = () => setBoard(boardElements);
 
+  // Inicializador del juego
+  const initGame = () => {
+    setStartGame(true);
+    setEndGame(false);
+    resetBoard();
+    setBalance(balance - betAmount)
+    setTotalWinAmount(betAmount);
+  };
+
+  // Juego Perdido
+  const loseGame = () => {
+    showBoard();
+    setStartGame(false);
+    setEndGame(true)
+    setBetAmount(0);
+    setOdd(bonesCount / chickenCount + 1);
+    setTotalWinAmount(0)
+    setChickenVisibled(1)
+  };
+
+  // Retirar dinero
+  const cashOut = () => {
+    showBoard();
+    setStartGame(false);
+    setEndGame(true);
+    setBetAmount(0);
+    setBalance(balance + totalWinAmount);
+    setOdd(bonesCount / chickenCount + 1);
+    setTotalWinAmount(0)
+    setChickenVisibled(1)
+  };
+
+  // Selecciona cada item del board
   const handleSelected = (selectedItem: IBoardItem) => {
     setBoard(
       board.map((item: IBoardItem) =>
@@ -42,35 +85,89 @@ const RootPage = () => {
 
     if (selectedItem.name === "bone") {
       setTimeout(() => {
-        showBoard();
-        setStartGame(false)
+        loseGame();
       }, 500);
+    }
+
+    if (selectedItem.name === "chicken") {
+      setChickenVisibled(chickenVisibled + 1);
+      if (chickenVisibled === 1) {
+        setOdd(bonesCount / chickenCount + 1);
+        setTotalWinAmount(betAmount * odd)
+      } else {
+        setOdd(bonesCount / (chickenCount - chickenVisibled) + 1);
+        setTotalWinAmount(totalWinAmount + odd);
+      }
     }
   };
 
+  // Boton de iniciar juego y retirar dinero
   const handleBetButton = () => {
     if (!startGame) {
-      setStartGame(true);
-      resetBoard()
+     initGame()
     } else {
-      setStartGame(false);
-      showBoard()
+      cashOut()
     }
-  }
+  };
+
+  // Incrementa el valor de la apuesta
+  const handleAmountIncrease = () => {
+    setBetAmount(betAmount + 10);
+  };
+
+  // Decrementa el valor de la apuesta
+  const handleAmountDecrease = () => {
+    setBetAmount(betAmount - 10);
+  };
+
+  // Incrementa la cantidad de huesos y decrementa la de pollos
+  const handleBoneIncrease = () => {
+    setBonesCount(bonesCount + 1);
+    setChickenCount(chickenCount - 1);
+  };
+
+  // Decrementa la cantidad de huesos y incrementa la de pollos
+  const handleBoneDecrease = () => {
+    setBonesCount(bonesCount - 1);
+    setChickenCount(chickenCount + 1);
+  };
+
+  console.log('board', board)
 
   return (
     <>
-      <Board
+      <GameHeader balance={balance} />
+      <GameBoard
         board={board}
         handleSelected={handleSelected}
         startGame={startGame}
+        endGame={endGame}
       />
       <GameState bonesCount={bonesCount} chickenCount={chickenCount} />
       <GameButtons
         startGame={startGame}
         betAmount={betAmount}
-        totalAmount={totalAmount}
+        totalWinAmount={totalWinAmount}
         handleBetButton={handleBetButton}
+      />
+      <GameBetBox
+        betAmount={betAmount}
+        balance={balance}
+        handleAmountIncrease={handleAmountIncrease}
+        handleAmountDecrease={handleAmountDecrease}
+        startGame={startGame}
+      />
+      <GameBoneBox
+        boneCount={bonesCount}
+        handleBoneIncrease={handleBoneIncrease}
+        handleBoneDecrease={handleBoneDecrease}
+        startGame={startGame}
+      />
+      <GameAmounts
+        nextWinAmount={nextWinAmount}
+        odd={odd}
+        nextOdd={nextOdd}
+        totalWinAmount={totalWinAmount}
       />
     </>
   );

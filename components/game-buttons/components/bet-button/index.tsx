@@ -42,6 +42,7 @@ const BetButton = (props: IBetButtonProps) => {
             ? "bg-violet-700 shadow-[0_6px_rgba(92,33,183,1)]"
             : "bg-red-600 shadow-[0_6px_rgba(195,0,22,1)]"
         }
+        ${disabled && "disabled:opacity-50"}
       `}
     >
       {label}
