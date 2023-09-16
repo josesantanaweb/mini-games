@@ -34,14 +34,14 @@ const GameBetBox = (props: IGameBetBoxProps) => {
         <button
           className="flex items-center justify-center w-10 h-10 text-white rounded-full bg-slate-800"
           onClick={handleAmountDecrease}
-          disabled={startGame || betAmount <= MIN_BET_AMOUNT}
+          disabled={startGame || betAmount <= 0}
         >
           <BiMinus size={22} />
         </button>
         <button
           className="flex items-center justify-center w-10 h-10 text-white rounded-full bg-slate-800"
           onClick={handleAmountIncrease}
-          disabled={startGame || balance <= MIN_BET_AMOUNT}
+          disabled={startGame || betAmount >= balance}
         >
           <BiPlus size={22} />
         </button>

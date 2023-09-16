@@ -64,7 +64,7 @@ const RootPage = () => {
     setStartGame(true);
     setEndGame(false);
     resetBoard();
-    setBalance(balance - betAmount)
+    // setBalance(balance - betAmount)
     setTotalWinAmount(betAmount);
   };
 
@@ -133,11 +133,13 @@ const RootPage = () => {
   // Incrementa el valor de la apuesta
   const handleAmountIncrease = () => {
     setBetAmount(betAmount + MIN_BET_AMOUNT);
+    setBalance(balance - MIN_BET_AMOUNT);
   };
 
   // Decrementa el valor de la apuesta
   const handleAmountDecrease = () => {
     setBetAmount(betAmount - MIN_BET_AMOUNT);
+    setBalance(balance + MIN_BET_AMOUNT);
   };
 
   // Incrementa la cantidad de huesos y decrementa la de pollos
