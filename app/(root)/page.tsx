@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import moment from "moment";
 import { shuffleWordArray, createArrayBoard } from "@/utils";
 import { IBoardItem, IHistory } from "@/interfaces";
-import { DEFAULT_CHICKEND, DEFAULT_BONES } from "@/constants";
+import { DEFAULT_CHICKEND, DEFAULT_BONES, MIN_BET_AMOUNT } from "@/constants";
 
 import GameHeader from "@/components/game-header";
 import GameBoard from "@/components/game-board";
@@ -130,16 +130,14 @@ const RootPage = () => {
     }
   };
 
-  console.log('totalWinAmount', totalWinAmount)
-
   // Incrementa el valor de la apuesta
   const handleAmountIncrease = () => {
-    setBetAmount(betAmount + 10);
+    setBetAmount(betAmount + MIN_BET_AMOUNT);
   };
 
   // Decrementa el valor de la apuesta
   const handleAmountDecrease = () => {
-    setBetAmount(betAmount - 10);
+    setBetAmount(betAmount - MIN_BET_AMOUNT);
   };
 
   // Incrementa la cantidad de huesos y decrementa la de pollos

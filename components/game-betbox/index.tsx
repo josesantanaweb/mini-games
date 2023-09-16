@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { BiPlus, BiMinus } from "react-icons/bi";
-// import { ODDS } from "@/constants";
+import { MIN_BET_AMOUNT } from "@/constants";
 
 export interface IGameBetBoxProps {
   betAmount: number;
@@ -34,14 +34,14 @@ const GameBetBox = (props: IGameBetBoxProps) => {
         <button
           className="flex items-center justify-center w-10 h-10 text-white rounded-full bg-slate-800"
           onClick={handleAmountDecrease}
-          disabled={startGame || betAmount <= 10}
+          disabled={startGame || betAmount <= MIN_BET_AMOUNT}
         >
           <BiMinus size={22} />
         </button>
         <button
           className="flex items-center justify-center w-10 h-10 text-white rounded-full bg-slate-800"
           onClick={handleAmountIncrease}
-          disabled={startGame || balance <= 0}
+          disabled={startGame || balance <= MIN_BET_AMOUNT}
         >
           <BiPlus size={22} />
         </button>
