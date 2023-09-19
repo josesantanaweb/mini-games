@@ -13,8 +13,8 @@ const config: Config = {
       },
       keyframes: {
         wiggle: {
-          "0%": { transform: "scale(0.99)" },
-          "100%": { transform: "scale(1)" },
+          "0%": { transform: "scale(1)" },
+          "100%": { transform: "scale(1.1)" },
         },
       },
       animation: {

@@ -27,9 +27,15 @@ const BoardItem = (props: IBoardItemProps) => {
       ? "opacity-100"
       : "opacity-50";
 
+  // Anima los items si estan visibles
+  const animationItem =
+    item.visibled
+      ? 'animate-[wiggle_1s_infinite_alternate]'
+      : ''
+
   return (
     <div
-      className={`cursor-pointer animate-[wiggle_1s_infinite_alternate] ${revealedItem}`}
+      className={`cursor-pointer ${animationItem} ${revealedItem}`}
       data-testid="board-item"
       onClick={() => !item.visibled && startGame && handleSelected(item)}
     >
