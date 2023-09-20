@@ -1,8 +1,6 @@
 import './globals.css'
 import type { Metadata } from 'next'
-import { Nunito_Sans } from "next/font/google"
-
-const nunito = Nunito_Sans({ subsets: ["latin"] });
+import { nunito } from "@/utils/fonts";
 
 export const metadata: Metadata = {
   title: "Mini Games",
