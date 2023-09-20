@@ -1,14 +1,14 @@
 "use client";
 
 import Header from "@/components/header";
-import MiniGames from "@/components/mini-games";
+import MiniGames from "@/components/minigames";
 
 const RootPage = () => {
   return (
-    <>
+    <main>
       <Header />
       <MiniGames />
-    </>
+    </main>
   );
 };
 

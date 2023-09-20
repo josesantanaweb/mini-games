@@ -26,4 +26,14 @@ export const minigames = [
     path: "rex",
     active: false,
   },
+  {
+    name: "limbo",
+    path: "limbo",
+    active: false,
+  },
+  {
+    name: "froggy",
+    path: "froggy",
+    active: false,
+  },
 ];

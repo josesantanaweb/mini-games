@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { BiPlus, BiMinus } from "react-icons/bi";
-import { MIN_BET_AMOUNT } from "@/constants";
 
 export interface IGameBetBoxProps {
   betAmount: number;

@@ -20,3 +20,8 @@ export interface IHistory {
   totalWinAmount: number;
   status: string
 }
+export interface IMiniGame {
+  name: string;
+  path: string;
+  active: boolean;
+}
