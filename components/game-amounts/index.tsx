@@ -16,7 +16,7 @@ const GameAmounts = (props: IGameAmountsProps) => {
 
   return (
     <section className="flex gap-2 items-center justify-between mx-2">
-      <NextAmount nextWinAmount={totalWinAmount} odd={odd} />
+      <NextAmount nextWinAmount={totalWinAmount} odd={nextOdd} />
       <TotalAmount totalWinAmount={totalWinAmount} odd={odd} />
     </section>
   );

@@ -3,7 +3,12 @@ import { useState, useEffect } from "react";
 import moment from "moment";
 import { shuffleWordArray, createArrayBoard } from "@/utils";
 import { IBoardItem, IHistory } from "@/interfaces";
-import { DEFAULT_CHICKEND, DEFAULT_BONES, MIN_BET_AMOUNT } from "@/constants";
+import {
+  DEFAULT_CHICKEND,
+  DEFAULT_BONES,
+  MIN_BET_AMOUNT,
+  DEFAULT_ODDS,
+} from "@/constants";
 
 import GameHeader from "@/components/game-header";
 import GameBoard from "@/components/game-board";
@@ -22,9 +27,9 @@ const PimPamPollo = () => {
   const [betAmount, setBetAmount] = useState<number>(0);
   const [totalWinAmount, setTotalWinAmount] = useState<number>(0);
   const [nextWinAmount, setNextWinAmount] = useState<number>(0);
-  const [balance, setBalance] = useState<number>(100);
-  const [odd, setOdd] = useState<number>(0);
-  const [nextOdd, setNextOdd] = useState<number>(0);
+  const [balance, setBalance] = useState<number>(120);
+  const [odd, setOdd] = useState<number>(DEFAULT_ODDS[0]);
+  const [nextOdd, setNextOdd] = useState<number>(DEFAULT_ODDS[1]);
   const [startGame, setStartGame] = useState<boolean>(false);
   const [endGame, setEndGame] = useState<boolean>(false);
   const [chickenVisibled, setChickenVisibled] = useState<number>(1);
@@ -36,8 +41,13 @@ const PimPamPollo = () => {
 
   useEffect(() => {
     setBoard(boardElements);
-    setOdd(bonesCount / chickenCount + 1);
+    setOdd(
+      bonesCount <= 1
+        ? DEFAULT_ODDS[bonesCount - 1] + 1
+        : DEFAULT_ODDS[bonesCount - 1]
+    );
   }, []);
+
 
   // Muestra los items del board
   const showBoard = () =>
@@ -75,6 +85,7 @@ const PimPamPollo = () => {
     setEndGame(true);
     setBetAmount(0);
     setOdd(bonesCount / chickenCount + 1);
+    setBalance(balance - betAmount);
     setTotalWinAmount(0);
     setChickenVisibled(1);
     addNewHistory("lose");
@@ -118,13 +129,27 @@ const PimPamPollo = () => {
         setOdd(bonesCount / (chickenCount - chickenVisibled) + 1);
         setTotalWinAmount(totalWinAmount + odd);
       }
+
+      //  setChickenCount(chickenCount - 1);
+      //  setBonesCount(bonesCount + 1);
+      //  if (chickenVisibled === 0) {
+      //    setOdd(bonesCount / chickenCount);
+      //    setTotalWinAmount(betAmount * odd + 10);
+      //  } else {
+      //    setOdd(bonesCount / chickenCount);
+      //    setTotalWinAmount(totalWinAmount * (1 + odd));
+      //  }
     }
   };
 
   // Boton de iniciar juego y retirar dinero
   const handleBetButton = () => {
     if (!startGame) {
-      initGame();
+      if (betAmount > balance) {
+        alert("No tienes suficiente dinero para apostar")
+      } else {
+        initGame();
+      }
     } else {
       cashOut();
     }
@@ -133,25 +158,37 @@ const PimPamPollo = () => {
   // Incrementa el valor de la apuesta
   const handleAmountIncrease = () => {
     setBetAmount(betAmount + MIN_BET_AMOUNT);
-    setBalance(balance - MIN_BET_AMOUNT);
+    // setBalance(balance - MIN_BET_AMOUNT);
   };
 
   // Decrementa el valor de la apuesta
   const handleAmountDecrease = () => {
     setBetAmount(betAmount - MIN_BET_AMOUNT);
-    setBalance(balance + MIN_BET_AMOUNT);
+    // setBalance(balance + MIN_BET_AMOUNT);
   };
 
   // Incrementa la cantidad de huesos y decrementa la de pollos
   const handleBoneIncrease = () => {
     setBonesCount(bonesCount + 1);
     setChickenCount(chickenCount - 1);
+
+    setOdd(
+      bonesCount <= 1
+        ? DEFAULT_ODDS[bonesCount] + 1
+        : DEFAULT_ODDS[bonesCount]
+    );
   };
 
-  // Decrementa la cantidad de huesos y incrementa la de pollos
+  // Decrementla cantidad de huesos y incrementa la de pollos
   const handleBoneDecrease = () => {
     setBonesCount(bonesCount - 1);
     setChickenCount(chickenCount + 1);
+
+    setOdd(
+      bonesCount < 3
+        ? DEFAULT_ODDS[bonesCount - 2] + 1
+        : DEFAULT_ODDS[bonesCount - 2]
+    );
   };
 
   return (
@@ -182,6 +219,7 @@ const PimPamPollo = () => {
         handleBoneIncrease={handleBoneIncrease}
         handleBoneDecrease={handleBoneDecrease}
         startGame={startGame}
+        initOdd={odd}
       />
       <GameAmounts
         nextWinAmount={nextWinAmount}

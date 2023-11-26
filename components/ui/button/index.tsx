@@ -7,6 +7,7 @@ export interface IButtonProps {
   label: string;
   disabled?: boolean;
   variant?: "primary" | "secondary";
+  size?: "small" | "medium";
 }
 
 const Button = (props: IButtonProps) => {
@@ -15,6 +16,7 @@ const Button = (props: IButtonProps) => {
     label,
     disabled,
     variant = "primary",
+    size = "medium",
   } = props;
   return (
     <button
@@ -25,18 +27,16 @@ const Button = (props: IButtonProps) => {
         items-center
         justify-center
         w-full
-        h-9
-        text-xs
-        font-bold
+        font-semibold
         capitalize
         rounded-md
         relative
-        px-4
         outline-none
         active:top-2
         active:shadow-[0_0]
-        text-white
-        ${variant === "primary" ? "bg-violet-700" : "bg-slate-800"}
+        text-slate-400
+        ${variant === "primary" ? "bg-violet-700 text-white" : "bg-slate-800"}
+        ${size === "small" ? "h-9 px-4 text-xs" : "h-11 px-5 text-md"}
         ${disabled && "disabled:opacity-50"}
       `}
     >

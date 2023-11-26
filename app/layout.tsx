@@ -1,6 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { nunito } from "@/utils/fonts";
+import AuthContext from "@/context/auth-context";
 
 export const metadata: Metadata = {
   title: "Mini Games",
@@ -15,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={nunito.className}>
-        {children}
+        <AuthContext>
+          {children}
+        </AuthContext>
       </body>
     </html>
   );

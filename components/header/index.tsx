@@ -20,7 +20,7 @@ const Header = () => {
         <Brand />
         <Country />
       </div>
-      {isLoggin ? (
+      {!isLoggin ? (
         <div className="flex items-center gap-4">
           <Wallet amount={100} />
           <UserInfo />

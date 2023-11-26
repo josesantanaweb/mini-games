@@ -2,13 +2,20 @@
 
 import React from "react";
 import Button from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 const AuthSection = () => {
+  const router = useRouter();
 
   return (
-    <div className="flex items-center gap-4">
-      <Button label="Registro" onClick={() => console.log()} />
-      <Button label="Login" onClick={() => console.log()} variant="secondary" />
+    <div className="flex items-center gap-3">
+      <Button label="Registro" onClick={() => console.log()} size="small" />
+      <Button
+        label="Login"
+        onClick={() => router.push('/login')}
+        variant="secondary"
+        size="small"
+      />
     </div>
   );
 };
